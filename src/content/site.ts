@@ -1,5 +1,5 @@
 // Company and contact details used across the site.
-// GO-LIVE BLOCKERS: replace every [BRACKETED] placeholder below before merging to main (see SITE_NOTES.md).
+// GO-LIVE BLOCKER: icoNumber is still a [BRACKETED] placeholder. Fill it in before merging to main (see SITE_NOTES.md).
 
 export const company = {
   legalName: 'Kenny Relf Surveyors Ltd',
@@ -10,8 +10,8 @@ export const company = {
   icoNumber: '[ICO REG NUMBER]',
 }
 
-export const contactEmail = '[CONTACT EMAIL]'
-export const privacyEmail = '[PRIVACY EMAIL]'
+export const contactEmail = 'hi@surveysuite.co.uk'
+export const privacyEmail = 'hi@surveysuite.co.uk'
 
 export const siteUrl = 'https://www.surveysuite.co.uk'
 

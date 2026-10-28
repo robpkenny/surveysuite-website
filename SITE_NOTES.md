@@ -7,13 +7,13 @@ How www.surveysuite.co.uk is built, hosted and deployed. Keep this file up to da
 Check every item before merging to `main`. **Do not merge while any box is unticked.**
 
 - [ ] ICO registration number added to the privacy page (`company.icoNumber` in `src/content/site.ts`, currently `[ICO REG NUMBER]`)
-- [ ] Contact and privacy emails confirmed and working (`contactEmail` and `privacyEmail` in `src/content/site.ts`, currently `[CONTACT EMAIL]` / `[PRIVACY EMAIL]`)
+- [ ] Contact and privacy emails confirmed and working (both set to `hi@surveysuite.co.uk` in `src/content/site.ts`; tick once Rob confirms the mailbox receives mail)
 - [ ] PR preview tested and approved by Rob
 
 Quick check for anything still unfilled:
 
 ```sh
-grep -rn "\[ICO REG NUMBER\]\|\[CONTACT EMAIL\]\|\[PRIVACY EMAIL\]" src
+grep -rn "\[ICO REG NUMBER\]" src
 ```
 
 ## Other open items (not blockers)
@@ -21,8 +21,7 @@ grep -rn "\[ICO REG NUMBER\]\|\[CONTACT EMAIL\]\|\[PRIVACY EMAIL\]" src
 - **Demo videos:** upload to YouTube as *Unlisted* and paste each link into `youtube` in `src/content/videos.ts`. Until then the videos are hidden and the Demos page shows a "coming soon" message.
 - **Video titles and descriptions** in `src/content/videos.ts` were inferred from the file names. Check them.
 - **"Built by surveyors, for surveyors. Designed inside a working surveying practice."** on the Home page. Confirm you're happy to publish it.
-- **Privacy policy retention periods** (24 months for enquiries, 6 years for customer records). Confirm they match practice.
-- **Step 3 (demo booking form):** update the privacy policy to cover form submissions, and add the API's address to `connect-src` in the Content Security Policy if the form posts anywhere other than `/api`.
+- **Step 3 (demo booking form):** decide where the API runs first (see *Data location* below). Then update the privacy policy to cover form submissions, and add the API's address to `connect-src` in the Content Security Policy if the form posts anywhere other than `/api`.
 - **Step 4 (analytics):** add a consent banner and update the cookie notice *before* any Google tag goes live.
 
 ## Hosting
@@ -37,6 +36,12 @@ grep -rn "\[ICO REG NUMBER\]\|\[CONTACT EMAIL\]\|\[PRIVACY EMAIL\]" src
 | Deployment token | GitHub secret `AZURE_STATIC_WEB_APPS_API_TOKEN_ICY_DUNE_0C5152210` (a Static Web Apps token, not an Entra client secret) |
 | Repo | https://github.com/robpkenny/surveysuite-website, branch `main` |
 | Workflow | `.github/workflows/azure-static-web-apps-icy-dune-0c5152210.yml` |
+
+**Approved decisions:**
+- Retention periods in the privacy policy: 24 months for enquiries, 6 years for customer records (approved by Rob, 28 Oct 2026).
+- Development happens in `C:\dev\surveysuite-website`, outside OneDrive. OneDrive sync caused a file conflict when the repo lived there, so don't clone it into OneDrive again.
+
+**Data location:** the Static Web App's region is **Central US**, so managed `/api` functions would run there. Static Web Apps can only be created in Central US, East US 2, West US 2, West Europe or East Asia (no UK region), and the region can't be changed after creation. Decide before Step 3.
 
 **Rules:** never create Entra client secrets (tenant policy blocks them). Don't change Azure resources or DNS without Rob's approval. Never touch MX, SPF, DKIM or DMARC records.
 
