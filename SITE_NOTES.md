@@ -18,8 +18,8 @@ grep -rn "\[ICO REG NUMBER\]" src
 
 ## Other open items (not blockers)
 
-- **Demo videos:** upload to YouTube as *Unlisted* and paste each link into `youtube` in `src/content/videos.ts`. Until then the videos are hidden and the Demos page shows a "coming soon" message.
-- **Video titles and descriptions** in `src/content/videos.ts` were inferred from the file names. Check them.
+- **Demo videos:** one is live, the Survey Suite Auto demo (https://youtu.be/riRUIujqhmU, public, 1:31). The other two Auto slots (*Hands-free in the car*, *Auto walkthrough*) are still empty and hidden. To add one, upload it to YouTube (Unlisted or Public, with embedding allowed) and paste the link into `youtube` in `src/content/videos.ts`.
+- **Titles and descriptions of the two empty video slots** were inferred from the file names. Check them when the videos are added.
 - **"Built by surveyors, for surveyors. Designed inside a working surveying practice."** on the Home page. Confirm you're happy to publish it.
 - **Step 3 (demo booking form):** decide where the API runs first (see *Data location* below). Then update the privacy policy to cover form submissions, and add the API's address to `connect-src` in the Content Security Policy if the form posts anywhere other than `/api`.
 - **Step 4 (analytics):** add a consent banner and update the cookie notice *before* any Google tag goes live.

@@ -22,10 +22,11 @@ export interface DemoVideo {
 export const videos: DemoVideo[] = [
   {
     id: 'auto-overview',
-    title: 'Survey Suite Auto overview',
+    title: 'Survey Suite Auto demo',
     product: 'auto',
-    description: 'A tour of the in-car interface on the dashboard tablet.',
-    youtube: '', // was "Survey Suite Auto.mp4"
+    description: 'A short demo of Survey Suite Auto, the hands-free in-car system for surveyors.',
+    youtube: 'https://youtu.be/riRUIujqhmU', // "Survey Suite Auto" on @surveysuiteapp, public
+    duration: '1:31',
   },
   {
     id: 'auto-hands-free',
