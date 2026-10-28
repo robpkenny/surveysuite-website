@@ -6,6 +6,14 @@ export interface Feature {
   icon: IconName
   label: string
   detail: string
+  /** Shown as a badge when set. Leave unset for products that don't track status. */
+  status?: 'live' | 'coming-soon'
+}
+
+export interface Step {
+  icon: IconName
+  title: string
+  detail: string
 }
 
 export interface Product {
@@ -20,6 +28,13 @@ export interface Product {
   strap: string
   features: Feature[]
   inTheDay: string
+  /** Optional extras. Each one adds a section to the product page when present. */
+  meta?: { title: string; description: string }
+  audience?: string
+  howItWorks?: Step[]
+  benefits?: Step[]
+  availability?: { label: string; heading: string; text: string; cta: string; emailSubject: string; pricing: string }
+  safetyNote?: string
 }
 
 // Wording taken from the Survey Suite product sheets.
@@ -94,27 +109,72 @@ export const products: Product[] = [
     inTheDay: 'On site, Inspect replaces the clipboard: notes, photos and defects captured once, in order.',
   },
   {
+    // Wording from the Survey Suite Auto product brief (Oct 2026). Don't add claims that aren't in the brief.
     slug: 'auto',
     name: 'Survey Suite Auto',
     short: 'Auto',
     where: 'On the road',
     whereIcon: 'car',
     headline: 'Your surveying day. Connected.',
-    tagline: 'A purpose-built in-vehicle interface for surveyors on the road.',
+    tagline: 'Hands-free help between inspections.',
     summary:
-      'Access job information, property addresses and navigation in one simple, safe interface designed for the car.',
-    strap: 'From one property to the next. Stay connected.',
-    features: [
-      { icon: 'navigation', label: 'Job navigation', detail: 'Go straight from the job list to directions.' },
-      { icon: 'mic', label: 'Voice controls', detail: 'Hands-free operation while you drive.' },
-      { icon: 'map-pin', label: 'GPS integration', detail: 'Distances to each job from where you are.' },
-      { icon: 'car', label: 'Vehicle dashboard', detail: 'Designed for in-car screens, not squeezed onto them.' },
-      { icon: 'search', label: 'Job search', detail: 'By job number, address or postcode.' },
-      { icon: 'refresh', label: 'Job synchronisation', detail: 'Today’s jobs, kept up to date.' },
-      { icon: 'calendar', label: 'Daily job information', detail: 'Your day’s list, ready when you start the car.' },
-      { icon: 'shield', label: 'Simple, safe interface', detail: 'Big targets and minimal distraction.' },
+      'Your car becomes part of the office – the day’s jobs, directions, calls and site notes, hands-free, from the moment you start the engine.',
+    strap: 'Early access',
+    meta: {
+      title: 'Survey Suite Auto: hands-free in-car system for surveyors',
+      description:
+        'Your car becomes part of the office: directions, hands-free calls and spoken site notes for residential surveyors on the road. Early access. Pricing on request.',
+    },
+    audience: 'For residential surveyors who spend much of the day driving between inspections.',
+    howItWorks: [
+      {
+        icon: 'tablet',
+        title: 'A small computer in the car',
+        detail: 'A small in-car computer (Raspberry Pi 5) connects to the car’s power and works with a dashboard tablet.',
+      },
+      {
+        icon: 'shield',
+        title: 'Signs in with your work account',
+        detail: 'It signs in with your Microsoft work account, so it only shows your own jobs and data.',
+      },
+      {
+        icon: 'refresh',
+        title: 'Linked to Survey Suite Core',
+        detail: 'It links to Survey Suite Core, so jobs, clients and notes stay in one system.',
+      },
     ],
-    inTheDay: 'Between properties, Auto puts the next job and the route on the car’s screen, hands-free.',
+    features: [
+      { status: 'live', icon: 'tablet', label: 'Dashboard tablet', detail: 'A full-screen, distraction-free layout.' },
+      { status: 'live', icon: 'navigation', label: 'Maps and navigation', detail: 'GPS directions to your next inspection.' },
+      { status: 'live', icon: 'phone', label: 'Hands-free calls and music', detail: 'Bluetooth calls and music controls.' },
+      { status: 'live', icon: 'mic', label: 'Voice dictation', detail: 'Speak your site notes instead of typing them.' },
+      { status: 'live', icon: 'gauge', label: 'Vehicle information', detail: 'Read from the car’s diagnostics port (OBD).' },
+      { status: 'live', icon: 'power', label: 'Safe automatic shutdown', detail: 'Shuts down safely to protect the car battery.' },
+      { status: 'coming-soon', icon: 'list', label: 'Today’s jobs', detail: 'Your job list, pulled from Survey Suite Core.' },
+      { status: 'coming-soon', icon: 'map-pin', label: 'Next inspection, chosen for you', detail: 'Picked automatically using GPS and today’s job list.' },
+      { status: 'coming-soon', icon: 'volume', label: 'Pre-arrival briefing', detail: 'Client, access notes and known risks, read aloud.' },
+      { status: 'coming-soon', icon: 'sparkles', label: 'AI assistant', detail: 'Ask spoken questions about jobs and reports.' },
+      { status: 'coming-soon', icon: 'hud', label: 'Heads-up display', detail: 'Speed, next turn and next job on the windscreen.' },
+    ],
+    benefits: [
+      { icon: 'clipboard', title: 'Less admin between jobs', detail: 'Directions, calls and site notes are handled hands-free.' },
+      { icon: 'mic', title: 'Notes captured while they’re fresh, without typing', detail: 'Speak your site notes and they’re written down for you.' },
+      { icon: 'volume', title: 'Arrive at every inspection already briefed', detail: 'The pre-arrival briefing (coming soon) reads out the client, access notes and known risks on the way.' },
+      { icon: 'home', title: 'Built by a surveyor', detail: 'Built and used daily by a practising RICS surveyor.' },
+      // Benefits are from the brief. Keep to 3–4 short points.
+    ],
+    availability: {
+      // Reads as: "Early access – currently in use at Kenny Relf Surveyors. Register your interest."
+      label: 'Early access',
+      heading: 'Currently in use at Kenny Relf Surveyors.',
+      text: 'Register your interest.',
+      cta: 'Register your interest',
+      emailSubject: 'Survey Suite Auto – early access',
+      pricing: 'Pricing on request',
+    },
+    safetyNote:
+      'Survey Suite Auto is designed for hands-free use. Drivers must follow the Highway Code and only interact with the system when it is safe and legal to do so.',
+    inTheDay: 'Between inspections, Auto handles directions, calls and spoken site notes, hands-free.',
   },
 ]
 

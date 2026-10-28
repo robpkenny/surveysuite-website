@@ -10,7 +10,7 @@ function Preview({ slug }: { slug: ProductSlug }) {
     case 'desktop': return <DeviceFrame kind="browser" label="Survey Suite Desktop dashboard"><DesktopScreen /></DeviceFrame>
     case 'mobile': return <DeviceFrame kind="phone" label="Survey Suite Mobile home screen"><MobileScreen /></DeviceFrame>
     case 'inspect': return <DeviceFrame kind="tablet" label="Survey Suite Inspect workspace"><InspectScreen /></DeviceFrame>
-    default: return <DeviceFrame kind="car" label="Survey Suite Auto job list"><AutoScreen /></DeviceFrame>
+    default: return <DeviceFrame kind="car" label="Survey Suite Auto navigation screen on a dashboard tablet"><AutoScreen /></DeviceFrame>
   }
 }
 
@@ -21,7 +21,10 @@ export default function ProductBento({ headingLevel = 3 }: { headingLevel?: 2 | 
       {products.map((p) => (
         <article key={p.slug} className={`bento__tile bento__tile--${p.slug}`} data-reveal>
           <div className="bento__copy">
-            <p className="bento__where"><Icon name={p.whereIcon} size={16} /> {p.where}</p>
+            <p className="bento__where">
+              <Icon name={p.whereIcon} size={16} /> {p.where}
+              {p.availability && <span className="badge badge--early">{p.availability.label}</span>}
+            </p>
             <H className="bento__name">
               <Link to={`/products/${p.slug}`} className="bento__link">{p.name}</Link>
             </H>

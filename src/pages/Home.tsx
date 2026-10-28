@@ -160,7 +160,7 @@ export default function Home() {
             </li>
             <li data-reveal>
               <Icon name="shield" />
-              <div><h3>Safe on the road</h3><p>Auto is a simple in-car interface with voice control, built to keep distraction to a minimum.</p></div>
+              <div><h3>Hands-free on the road</h3><p>Auto runs on a dashboard tablet with a full-screen, distraction-free layout, hands-free calls and voice dictation for site notes.</p></div>
             </li>
           </ul>
         </div>

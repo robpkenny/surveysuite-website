@@ -24,14 +24,14 @@ export const videos: DemoVideo[] = [
     id: 'auto-overview',
     title: 'Survey Suite Auto overview',
     product: 'auto',
-    description: 'A tour of the in-car interface: today’s job list, job search and getting directions to the next property.',
+    description: 'A tour of the in-car interface on the dashboard tablet.',
     youtube: '', // was "Survey Suite Auto.mp4"
   },
   {
     id: 'auto-hands-free',
     title: 'Hands-free in the car',
     product: 'auto',
-    description: 'Driving the day by voice: finding jobs and navigating without taking your hands off the wheel.',
+    description: 'Using Survey Suite Auto hands-free while driving.',
     youtube: '', // was "Survey Suite Auto with hands free.mp4"
   },
   {
