@@ -4,8 +4,8 @@ import EmailLink from '../components/EmailLink'
 import { company, privacyEmail } from '../content/site'
 import { usePageTitle } from '../hooks'
 
-// GO-LIVE BLOCKER: company.icoNumber and privacyEmail are placeholders (src/content/site.ts).
-// Do not merge to main until both are filled in. See SITE_NOTES.md.
+// GO-LIVE BLOCKER: company.icoNumber is a placeholder (src/content/site.ts).
+// Do not merge to main until it is filled in. See SITE_NOTES.md.
 
 export default function Privacy() {
   usePageTitle('Privacy policy')
