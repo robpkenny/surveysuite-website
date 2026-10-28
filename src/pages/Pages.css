@@ -179,3 +179,73 @@ a.day__label:hover strong { text-decoration: underline; text-decoration-color: v
   color: var(--color-accent-text);
 }
 @media (max-width: 560px) { .soon { padding: var(--space-8) var(--space-6); } }
+
+/* ---------- Product page extras (used when a product has these fields, e.g. Auto) ---------- */
+.product-hero__audience {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin: 0;
+  font-weight: 600;
+  color: var(--color-primary);
+  max-inline-size: 52ch;
+}
+.product-hero__audience svg { flex: none; margin-block-start: 0.15em; color: var(--color-accent-text); }
+
+/* How it works: numbered steps */
+.steps {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6);
+  counter-reset: none;
+}
+.steps__item {
+  position: relative;
+  display: grid; gap: var(--space-3); align-content: start;
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+.steps__n {
+  position: absolute; inset-block-start: var(--space-4); inset-inline-end: var(--space-4);
+  font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; line-height: 1;
+  color: var(--color-border-strong);
+}
+.steps__icon {
+  display: grid; place-items: center; inline-size: 48px; block-size: 48px;
+  border-radius: var(--radius-md); background: var(--color-accent-soft); color: var(--color-accent-text);
+}
+.steps__title { font-size: 1.125rem; margin: 0; }
+.steps__detail { margin: 0; color: var(--color-text-muted); }
+
+/* Key for Live / Coming soon badges */
+.features-key {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3);
+  margin: calc(var(--space-12) * -0.5) 0 var(--space-8);
+  font-size: var(--text-sm); color: var(--color-text-muted);
+}
+.features-key .badge { margin: 0; }
+
+/* Benefits */
+.benefits__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8) var(--space-12); }
+.benefits__item { display: flex; gap: var(--space-4); align-items: flex-start; }
+.benefits__item svg { flex: none; color: var(--color-accent); }
+.benefits__item h3 { font-size: 1.25rem; margin: 0 0 var(--space-1); }
+.benefits__item p { margin: 0; color: var(--color-text-muted); }
+
+/* Availability note inside the navy band */
+.cta-band__note { margin: var(--space-3) 0 0; color: var(--color-on-primary-muted); }
+.cta-band__note strong { color: var(--color-on-primary); }
+
+/* Small print at the foot of a product page */
+.safety-note { padding-block: var(--space-6); }
+.safety-note p {
+  margin: 0; max-inline-size: 80ch;
+  font-size: var(--text-sm); color: var(--color-text-muted);
+}
+
+@media (max-width: 900px) {
+  .steps { grid-template-columns: 1fr; }
+  .benefits__list { grid-template-columns: 1fr; gap: var(--space-6); }
+}

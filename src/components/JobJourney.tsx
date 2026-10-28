@@ -28,8 +28,8 @@ const steps: Step[] = [
   },
   {
     id: 'road', place: 'Road', product: 'Auto', slug: 'auto', icon: 'car',
-    title: 'It’s next on the car’s screen',
-    body: 'Auto puts the job and the route on the in-car display, with voice control while you drive.',
+    title: 'Directions on the dashboard',
+    body: 'Auto guides you to the inspection, takes calls hands-free and records spoken site notes. Pulling the day’s jobs straight from Survey Suite Core is coming soon.',
   },
   {
     id: 'site', place: 'Site', product: 'Inspect', slug: 'inspect', icon: 'clipboard',
@@ -45,7 +45,7 @@ function Stage({ id }: { id: string }) {
     case 'pocket':
       return <DeviceFrame kind="phone" label={`Survey Suite Mobile showing today's jobs, with ${sampleJob.address} first`}><MobileScreen view="today" /></DeviceFrame>
     case 'road':
-      return <DeviceFrame kind="car" label={`Survey Suite Auto on a car display, with job ${sampleJob.no} next`}><AutoScreen /></DeviceFrame>
+      return <DeviceFrame kind="car" label={`Survey Suite Auto on a dashboard tablet, giving directions to ${sampleJob.address}`}><AutoScreen /></DeviceFrame>
     default:
       return <DeviceFrame kind="tablet" label="Survey Suite Inspect showing a photographed defect on the front elevation"><InspectScreen /></DeviceFrame>
   }

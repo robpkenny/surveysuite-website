@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import DeviceFrame from '../components/DeviceFrame'
 import { AutoScreen, DesktopScreen, InspectScreen, MobileScreen } from '../components/ProductScreens'
-import FeatureList from '../components/FeatureList'
+import FeatureList, { StatusBadge } from '../components/FeatureList'
+import EmailLink from '../components/EmailLink'
 import { VideoCard, VideoPlayer } from '../components/Video'
 import Icon, { ForwardIcon } from '../components/Icon'
 import { productBySlug, products, type Product } from '../content/products'
@@ -25,7 +26,7 @@ function Hero({ p }: { p: Product }) {
     case 'inspect':
       return <DeviceFrame kind="tablet" label="Survey Suite Inspect workspace with notes, photos, observations and defects"><InspectScreen /></DeviceFrame>
     default:
-      return <DeviceFrame kind="car" label="Survey Suite Auto on an in-car display, listing today's jobs"><AutoScreen /></DeviceFrame>
+      return <DeviceFrame kind="car" label="Survey Suite Auto on a dashboard tablet, giving directions to the next inspection"><AutoScreen /></DeviceFrame>
   }
 }
 
@@ -61,9 +62,15 @@ function ProductVideos({ p }: { p: Product }) {
 function ProductPageInner() {
   const { slug = '' } = useParams()
   const p = productBySlug(slug)
-  usePageTitle(p?.name ?? 'Page not found')
+  usePageTitle(p?.name ?? 'Page not found', p?.meta)
   const ref = useReveal<HTMLDivElement>()
   if (!p) return <NotFound />
+  const avail = p.availability
+  const register = avail && (
+    <EmailLink className="btn btn--primary" subject={avail.emailSubject}>
+      <Icon name="mail" size={18} /> {avail.cta}
+    </EmailLink>
+  )
 
   const idx = products.indexOf(p)
   const next = products[(idx + 1) % products.length]
@@ -86,8 +93,9 @@ function ProductPageInner() {
               {p.headline}
             </h1>
             <p className="lede enter enter-1">{p.summary}</p>
+            {p.audience && <p className="product-hero__audience enter enter-1"><Icon name="users" size={18} /> {p.audience}</p>}
             <div className="hero__actions enter enter-2">
-              {hasVideos ? (
+              {register ? register : hasVideos ? (
                 <a href="#pv-title" className="btn btn--primary"><Icon name="play" size={16} /> Watch the {p.short} demos</a>
               ) : (
                 <Link to="/demos" className="btn btn--primary"><Icon name="play" size={16} /> Watch the demos</Link>
@@ -101,15 +109,60 @@ function ProductPageInner() {
 
       {hasVideos && <ProductVideos p={p} />}
 
+      {p.howItWorks && (
+        <section className="section" aria-labelledby="how-title">
+          <div className="container">
+            <div className="section-head" data-reveal>
+              <p className="eyebrow">How it works</p>
+              <h2 id="how-title">How {p.name} works.</h2>
+            </div>
+            <ol className="steps" role="list">
+              {p.howItWorks.map((s, i) => (
+                <li key={s.title} className="steps__item" data-reveal>
+                  <span className="steps__n" aria-hidden="true">{i + 1}</span>
+                  <span className="steps__icon"><Icon name={s.icon} size={22} /></span>
+                  <h3 className="steps__title">{s.title}</h3>
+                  <p className="steps__detail">{s.detail}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      )}
+
       <section className="section section--tint" aria-labelledby="features-title">
         <div className="container">
           <div className="section-head" data-reveal>
             <p className="eyebrow">What it does</p>
             <h2 id="features-title">{p.tagline}</h2>
           </div>
+          {p.features.some((f) => f.status) && (
+            <p className="features-key" data-reveal>
+              <StatusBadge status="live" /> available today <StatusBadge status="coming-soon" /> in development
+            </p>
+          )}
           <FeatureList features={p.features} />
         </div>
       </section>
+
+      {p.benefits && (
+        <section className="section" aria-labelledby="benefits-title">
+          <div className="container benefits">
+            <div className="section-head" data-reveal>
+              <p className="eyebrow">Why it helps</p>
+              <h2 id="benefits-title">What it means for your day.</h2>
+            </div>
+            <ul className="benefits__list" role="list">
+              {p.benefits.map((b) => (
+                <li key={b.title} className="benefits__item" data-reveal>
+                  <Icon name={b.icon} />
+                  <div><h3>{b.title}</h3><p>{b.detail}</p></div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       <section className="section" aria-labelledby="day-title">
         <div className="container">
@@ -132,18 +185,42 @@ function ProductPageInner() {
         </div>
       </section>
 
-      <section className="section band-navy cta-band" aria-labelledby="pp-cta">
-        <div className="container cta-band__split" data-reveal>
-          <div>
-            <p className="eyebrow">{p.strap}</p>
-            <h2 id="pp-cta">See the whole suite working together.</h2>
+      {avail ? (
+        <section className="section band-navy cta-band" aria-labelledby="pp-cta">
+          <div className="container cta-band__split" data-reveal>
+            <div>
+              <p className="eyebrow">{avail.label}</p>
+              <h2 id="pp-cta">{avail.heading}</h2>
+              <p className="cta-band__note">{avail.text} <strong>{avail.pricing}.</strong></p>
+            </div>
+            <div className="hero__actions">
+              <EmailLink className="btn btn--light" subject={avail.emailSubject}>
+                <Icon name="mail" size={18} /> {avail.cta}
+              </EmailLink>
+              <Link to={`/products/${next.slug}`} className="btn btn--ghost-light">Next: {next.name} <ForwardIcon /></Link>
+            </div>
           </div>
-          <div className="hero__actions">
-            <Link to="/demos" className="btn btn--light"><Icon name="play" size={16} /> Watch the demos</Link>
-            <Link to={`/products/${next.slug}`} className="btn btn--ghost-light">Next: {next.name} <ForwardIcon /></Link>
+        </section>
+      ) : (
+        <section className="section band-navy cta-band" aria-labelledby="pp-cta">
+          <div className="container cta-band__split" data-reveal>
+            <div>
+              <p className="eyebrow">{p.strap}</p>
+              <h2 id="pp-cta">See the whole suite working together.</h2>
+            </div>
+            <div className="hero__actions">
+              <Link to="/demos" className="btn btn--light"><Icon name="play" size={16} /> Watch the demos</Link>
+              <Link to={`/products/${next.slug}`} className="btn btn--ghost-light">Next: {next.name} <ForwardIcon /></Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {p.safetyNote && (
+        <aside className="container safety-note" aria-label="Safety">
+          <p>{p.safetyNote}</p>
+        </aside>
+      )}
     </div>
   )
 }

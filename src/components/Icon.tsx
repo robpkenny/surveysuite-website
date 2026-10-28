@@ -37,6 +37,12 @@ const paths = {
   ruler: (<><path d="M3 17 17 3l4 4L7 21z" /><path d="m7 13 2 2M10 10l2 2M13 7l2 2" /></>),
   tag: (<><path d="M3 12V4h8l10 10-8 8z" /><circle cx="7.5" cy="8.5" r="1.2" /></>),
   more: <path d="M5 12h.01M12 12h.01M19 12h.01" />,
+  tablet: (<><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M18 12h.01" /></>),
+  phone: <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z" />,
+  gauge: (<><path d="M4.5 18a9 9 0 1 1 15 0" /><path d="m12 14 4-5M12 14h.01" /></>),
+  power: (<><path d="M12 3v8" /><path d="M7 6.3a8 8 0 1 0 10 0" /></>),
+  volume: (<><path d="M4 9h4l5-4v14l-5-4H4z" /><path d="M17 9a4 4 0 0 1 0 6M19.5 6.5a7.5 7.5 0 0 1 0 11" /></>),
+  hud: (<><path d="M3 7c6-2.5 12-2.5 18 0l-2 10c-4.7-1.4-9.3-1.4-14 0z" /><path d="M12 9.5v4M10 11.5l2-2 2 2" /></>),
 } as const
 
 export type IconName = keyof typeof paths

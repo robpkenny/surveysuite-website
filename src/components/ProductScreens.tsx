@@ -97,7 +97,7 @@ export function DesktopScreen({ focusJob = false }: { focusJob?: boolean }) {
         </div>
         {focusJob && (
           <div className="sd-toast">
-            <Icon name="check-square" size={11} /> Job <Id>{sampleJob.no}</Id> assigned to J. Davis · sent to Mobile, Auto and Inspect
+            <Icon name="check-square" size={11} /> Job <Id>{sampleJob.no}</Id> assigned to J. Davis · sent to Mobile and Inspect
           </div>
         )}
       </div>
@@ -157,24 +157,30 @@ export function AutoScreen() {
         <div><b>Survey Suite Auto</b><small>Vehicle connected</small></div>
         <div className="sa-clock"><b>08:52</b><small>Online</small></div>
       </div>
-      <div className="sa-flags"><span className="sa-flag">Hands-free on</span><span>Voice: “Next job”</span></div>
-      <div className="sa-nav"><b>Navigate</b><span>GPS: 3D fix</span></div>
-      <div className="sa-body">
-        <div className="sa-jobs-h"><b>Jobs</b><span className="sa-btn">Refresh</span></div>
-        <div className="sa-search">Search job number, address or postcode</div>
-        <div className="sa-job is-next">
-          <b><Id>{sampleJob.no}</Id> · {sampleJob.distance}</b>
-          <span>{sampleJob.address}, {sampleJob.town}, <Id>{sampleJob.postcode}</Id></span>
-        </div>
-        <div className="sa-job">
-          <b><Id>001053</Id> · 7.8 mi</b>
-          <span>Maple Court, Bognor Regis, <Id>PO21 1BU</Id></span>
+      {/* Shows LIVE features only (navigation, hands-free, dictation). See the Auto entry in products.ts. */}
+      <div className="sa-flags"><span className="sa-flag">Hands-free on</span><span>Bluetooth connected</span></div>
+      <div className="sa-map">
+        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="400" height="200" fill="#e6ece8" />
+          <path d="M0 150h400M250 0v200M0 60c80 10 140 0 250 -10s120 0 150 10M90 0v200" stroke="#fff" strokeWidth="14" fill="none" />
+          <path d="M30 0v200M330 0v200M0 110h400" stroke="#f7f9f8" strokeWidth="6" fill="none" />
+          <path d="M60 200V150h190V60" stroke="#2f8fc4" strokeWidth="8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="250" cy="55" r="9" fill="#d65127" stroke="#fff" strokeWidth="3" />
+          <path d="M60 178l-9 14h18z" fill="#00364a" stroke="#fff" strokeWidth="2" />
+        </svg>
+        <div className="sa-turn">
+          <Icon name="navigation" size={14} />
+          <div><b>Turn left in 300 yd</b><small>Oakwood Drive</small></div>
         </div>
       </div>
+      <div className="sa-dest">
+        <span className="sa-dest-dot" />
+        <div><b>{sampleJob.address}, {sampleJob.town}</b><small>Next inspection · {sampleJob.distance}</small></div>
+      </div>
       <div className="sa-actions">
-        <span className="sa-act">Back</span>
-        <span className="sa-act sa-act--go"><Icon name="navigation" size={10} /> Go</span>
-        <span className="sa-act">Refresh</span>
+        <span className="sa-act"><Icon name="mic" size={10} /> Dictate note</span>
+        <span className="sa-act sa-act--go"><Icon name="phone" size={10} /> Call</span>
+        <span className="sa-act"><Icon name="volume" size={10} /> Music</span>
       </div>
     </div>
   )

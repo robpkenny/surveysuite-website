@@ -1,11 +1,23 @@
 import { useEffect, useRef } from 'react'
 
 const SITE = 'Survey Suite'
+const descriptionTag = () => document.querySelector<HTMLMetaElement>('meta[name="description"]')
+const DEFAULT_DESCRIPTION = descriptionTag()?.content ?? ''
 
-export function usePageTitle(page?: string) {
+/**
+ * Sets the browser tab title and, optionally, the page's meta description.
+ * `meta.title` replaces the "<page> — Survey Suite" pattern with an exact title.
+ */
+export function usePageTitle(page?: string, meta?: { title?: string; description?: string }) {
+  const title = meta?.title ?? (page ? `${page} — ${SITE}` : SITE)
+  const description = meta?.description
   useEffect(() => {
-    document.title = page ? `${page} — ${SITE}` : SITE
-  }, [page])
+    document.title = title
+    const tag = descriptionTag()
+    if (!tag || !description) return
+    tag.content = description
+    return () => { tag.content = DEFAULT_DESCRIPTION }
+  }, [title, description])
 }
 
 /** Fade sections in on scroll. Content stays visible unless the observer attaches. */

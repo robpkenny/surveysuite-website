@@ -22,16 +22,17 @@ export interface DemoVideo {
 export const videos: DemoVideo[] = [
   {
     id: 'auto-overview',
-    title: 'Survey Suite Auto overview',
+    title: 'Survey Suite Auto demo',
     product: 'auto',
-    description: 'A tour of the in-car interface: today’s job list, job search and getting directions to the next property.',
-    youtube: '', // was "Survey Suite Auto.mp4"
+    description: 'A short demo of Survey Suite Auto, the hands-free in-car system for surveyors.',
+    youtube: 'https://youtu.be/riRUIujqhmU', // "Survey Suite Auto" on @surveysuiteapp, public
+    duration: '1:31',
   },
   {
     id: 'auto-hands-free',
     title: 'Hands-free in the car',
     product: 'auto',
-    description: 'Driving the day by voice: finding jobs and navigating without taking your hands off the wheel.',
+    description: 'Using Survey Suite Auto hands-free while driving.',
     youtube: '', // was "Survey Suite Auto with hands free.mp4"
   },
   {
