@@ -6,7 +6,7 @@ How www.surveysuite.co.uk is built, hosted and deployed. Keep this file up to da
 
 Check every item before merging to `main`. **Do not merge while any box is unticked.**
 
-- [ ] ICO registration number added to the privacy page (`company.icoNumber` in `src/content/site.ts`, currently `[ICO REG NUMBER]`)
+- [x] ICO registration number: **waived for launch by Rob, 28 Oct 2026.** The privacy page hides the ICO line while `company.icoNumber` in `src/content/site.ts` is still `[ICO REG NUMBER]`. **Follow-up:** set the real number there; the line then appears automatically.
 - [x] Contact and privacy emails confirmed and working (both `hi@surveysuite.co.uk` in `src/content/site.ts`; confirmed by Rob, 28 Oct 2026)
 - [x] PR preview tested and approved by Rob (28 Oct 2026)
 

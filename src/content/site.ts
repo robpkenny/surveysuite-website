@@ -1,5 +1,6 @@
 // Company and contact details used across the site.
-// GO-LIVE BLOCKER: icoNumber is still a [BRACKETED] placeholder. Fill it in before merging to main (see SITE_NOTES.md).
+// FOLLOW-UP: icoNumber is still a [BRACKETED] placeholder. While it is, the privacy page hides the ICO line.
+// Replace it with the real registration number when it arrives (see SITE_NOTES.md).
 
 export const company = {
   legalName: 'Kenny Relf Surveyors Ltd',

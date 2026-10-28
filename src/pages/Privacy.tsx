@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom'
 import LegalPage, { Value } from '../components/LegalPage'
 import EmailLink from '../components/EmailLink'
-import { company, privacyEmail } from '../content/site'
+import { company, isPlaceholder, privacyEmail } from '../content/site'
 import { usePageTitle } from '../hooks'
 
-// GO-LIVE BLOCKER: company.icoNumber is a placeholder (src/content/site.ts).
-// Do not merge to main until it is filled in. See SITE_NOTES.md.
+// The ICO registration line only appears once company.icoNumber in src/content/site.ts is a real number.
 
 export default function Privacy() {
   usePageTitle('Privacy policy')
@@ -30,8 +29,13 @@ export default function Privacy() {
           <dd><address>{company.registeredOffice.join(', ')}</address></dd>
           <dt>Company number</dt>
           <dd><span className="ltr-value" dir="ltr">{company.companyNumber}</span> (registered in {company.registeredIn})</dd>
-          <dt>ICO registration</dt>
-          <dd><span className="ltr-value" dir="ltr"><Value>{company.icoNumber}</Value></span></dd>
+          {/* Hidden until a real ICO number is set in src/content/site.ts */}
+          {!isPlaceholder(company.icoNumber) && (
+            <>
+              <dt>ICO registration</dt>
+              <dd><span className="ltr-value" dir="ltr">{company.icoNumber}</span></dd>
+            </>
+          )}
           <dt>Privacy contact</dt>
           <dd>{privacy}</dd>
         </dl>
