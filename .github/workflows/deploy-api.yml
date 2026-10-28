@@ -1,0 +1,71 @@
+# Tests the demo-booking API on every PR that touches api/, and deploys it to the
+# UK South function app when those changes reach main.
+# Signs in to Azure with GitHub OIDC (federated identity id-surveysuite-github):
+# no passwords or client secrets are stored in GitHub.
+name: API (Azure Functions, UK South)
+
+on:
+  push:
+    branches: [main]
+    paths: ['api/**', '.github/workflows/deploy-api.yml']
+  pull_request:
+    branches: [main]
+    paths: ['api/**', '.github/workflows/deploy-api.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: api-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Test API
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: api/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm audit --omit=dev --audit-level=high
+
+  deploy:
+    name: Deploy to func-surveysuite-api-uks
+    needs: test
+    # Only from main: the Azure trust rule only accepts tokens for refs/heads/main.
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # needed to request the OIDC token
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: api/package-lock.json
+      - name: Install production dependencies
+        working-directory: api
+        run: npm ci --omit=dev
+      - name: Sign in to Azure (OIDC, no secrets)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Deploy
+        uses: Azure/functions-action@v1
+        with:
+          app-name: func-surveysuite-api-uks
+          package: api
+          respect-funcignore: true

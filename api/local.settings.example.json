@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsStorage": "",
+    "ENQUIRY_DRY_RUN": "true",
+    "ALLOWED_ORIGINS": "http://localhost:4280,http://localhost:5173",
+    "MAIL_FROM": "hi@surveysuite.co.uk",
+    "MAIL_TO": "hi@surveysuite.co.uk"
+  }
+}
