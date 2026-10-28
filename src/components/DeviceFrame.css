@@ -1,0 +1,102 @@
+.device {
+  margin: 0;
+  position: relative;
+  container-type: inline-size;
+}
+.device__screen {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface);
+  font-family: var(--font-body);
+  color: var(--color-text);
+  user-select: none;
+}
+
+/* Browser window */
+.device--browser {
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.device__bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  background: #eef2f4;
+  border-block-end: 1px solid var(--color-border);
+}
+.device__bar > span { inline-size: 10px; block-size: 10px; border-radius: 50%; background: #c9d3d9; }
+.device__url {
+  margin-inline: auto;
+  padding: 3px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  font-size: 11px;
+  color: var(--color-text-muted);
+  /* bidi-fixed: URL is a machine value; verify=ltr,rtl */
+  direction: ltr;
+}
+.device--browser .device__screen { aspect-ratio: 16 / 10; }
+
+/* Phone */
+.device--phone {
+  padding: 10px;
+  border-radius: 38px;
+  background: #121a1f;
+  box-shadow: var(--shadow-lg), inset 0 0 0 2px #2b363d;
+}
+.device--phone .device__screen { border-radius: 29px; aspect-ratio: 9 / 19; }
+.device__notch {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 18px;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  inline-size: 30%;
+  block-size: 18px;
+  border-radius: 12px;
+  background: #121a1f;
+}
+
+/* Rugged tablet */
+.device--tablet {
+  padding: 18px;
+  border-radius: 26px;
+  background: linear-gradient(160deg, #2a3237, #14191c);
+  box-shadow: var(--shadow-lg), inset 0 0 0 3px #3a454b;
+}
+.device--tablet::before,
+.device--tablet::after {
+  content: '';
+  position: absolute;
+  inline-size: 30px;
+  block-size: 30px;
+  border-radius: 12px;
+  background: #1b2125;
+}
+.device--tablet::before { inset-block-start: -3px; inset-inline-start: -3px; }
+.device--tablet::after { inset-block-end: -3px; inset-inline-end: -3px; }
+.device--tablet .device__screen { border-radius: 8px; aspect-ratio: 4 / 3; z-index: 1; }
+
+/* In-car display */
+.device--car {
+  padding: 14px;
+  border-radius: 22px;
+  background: linear-gradient(170deg, #20272b, #0f1315);
+  box-shadow: var(--shadow-lg), inset 0 0 0 2px #333d43;
+}
+.device--car .device__screen { border-radius: 10px; aspect-ratio: 16 / 10; }
+.device__stand {
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  inline-size: 22%;
+  block-size: 18px;
+  background: linear-gradient(#1a2024, #0c0f11);
+  border-end-start-radius: 8px;
+  border-end-end-radius: 8px;
+}

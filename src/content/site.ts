@@ -1,0 +1,22 @@
+// Company and contact details used across the site.
+// GO-LIVE BLOCKERS: replace every [BRACKETED] placeholder below before merging to main (see SITE_NOTES.md).
+
+export const company = {
+  legalName: 'Kenny Relf Surveyors Ltd',
+  tradingName: 'Survey Suite',
+  companyNumber: '15710090',
+  registeredIn: 'England and Wales',
+  registeredOffice: ['Cawley Priory', 'South Pallant', 'Chichester', 'West Sussex', 'PO19 1SY'],
+  icoNumber: '[ICO REG NUMBER]',
+}
+
+export const contactEmail = '[CONTACT EMAIL]'
+export const privacyEmail = '[PRIVACY EMAIL]'
+
+export const siteUrl = 'https://www.surveysuite.co.uk'
+
+/** True while a value is still a [BRACKETED] placeholder. */
+export const isPlaceholder = (value: string) => /^\[.*\]$/.test(value)
+
+/** Date the privacy and cookie pages were last reviewed. Update when they change. */
+export const policyUpdated = '2026-10-28'
