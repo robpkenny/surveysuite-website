@@ -20,8 +20,8 @@ grep -rn "\[ICO REG NUMBER\]" src
 
 - **Demo videos:** one is live, the Survey Suite Auto demo (https://youtu.be/riRUIujqhmU, public, 1:31). The other two Auto slots (*Hands-free in the car*, *Auto walkthrough*) are still empty and hidden. To add one, upload it to YouTube (Unlisted or Public, with embedding allowed) and paste the link into `youtube` in `src/content/videos.ts`.
 - **Titles and descriptions of the two empty video slots** were inferred from the file names. Check them when the videos are added.
-- **"Built by surveyors, for surveyors. Designed inside a working surveying practice."** on the Home page. Confirm you're happy to publish it.
-- **Step 3 (demo booking form):** decide where the API runs first (see *Data location* below). Then update the privacy policy to cover form submissions, and add the API's address to `connect-src` in the Content Security Policy if the form posts anywhere other than `/api`.
+- **Step 3 (demo booking form):** the API is built (PR A, see *Demo booking API* below). Still to do: the form page (PR B), a privacy-policy section for the form, then a live test.
+- **ICO registration number:** add it to `company.icoNumber` in `src/content/site.ts` when it arrives.
 - **Step 4 (analytics):** add a consent banner and update the cookie notice *before* any Google tag goes live.
 
 ## Hosting
@@ -29,10 +29,12 @@ grep -rn "\[ICO REG NUMBER\]" src
 | Setting | Value |
 |---|---|
 | Azure resource | Static Web App **SurveySuite**, resource group **SurveySuite** |
-| Plan | Free |
+| Plan | **Standard** (£6.79/month list price, upgraded 28 Oct 2026 to link the UK South API) |
+| Region | Central US (static files are served worldwide; this is where Azure keeps the app's settings) |
 | Default address | https://icy-dune-0c5152210.7.azurestaticapps.net |
-| Custom domains (in Azure) | `www.surveysuite.co.uk` and `surveysuite.co.uk`, both showing **Ready** (28 Oct 2026) |
-| Application settings | None yet (Step 3 will add mail settings here, never in the repo) |
+| Custom domain (in Azure) | `www.surveysuite.co.uk`, **Ready**, free certificate renewed automatically. The root domain was removed from Azure because 123 Reg forwards it. |
+| Linked API | `func-surveysuite-api-uks` (UK South) on `/api`. Not available on PR previews. |
+| Application settings | None on the Static Web App. The API's settings live on the function app. |
 | Deployment token | GitHub secret `AZURE_STATIC_WEB_APPS_API_TOKEN_ICY_DUNE_0C5152210` (a Static Web Apps token, not an Entra client secret) |
 | Repo | https://github.com/robpkenny/surveysuite-website, branch `main` |
 | Workflow | `.github/workflows/azure-static-web-apps-icy-dune-0c5152210.yml` |
@@ -41,27 +43,61 @@ grep -rn "\[ICO REG NUMBER\]" src
 - Retention periods in the privacy policy: 24 months for enquiries, 6 years for customer records (approved by Rob, 28 Oct 2026).
 - Development happens in `C:\dev\surveysuite-website`, outside OneDrive. OneDrive sync caused a file conflict when the repo lived there, so don't clone it into OneDrive again.
 
-**Data location:** the Static Web App's region is **Central US**, so managed `/api` functions would run there. Static Web Apps can only be created in Central US, East US 2, West US 2, West Europe or East Asia (no UK region), and the region can't be changed after creation. Decide before Step 3.
+- Form data is processed in the **UK**: the API is a separate Functions app in **UK South**, linked to the site (Option A, approved 28 Oct 2026). Static Web Apps has no UK region, so the site's own managed functions are not used.
+- No auto-reply to people who send an enquiry; they see an on-screen confirmation only.
 
 **Rules:** never create Entra client secrets (tenant policy blocks them). Don't change Azure resources or DNS without Rob's approval. Never touch MX, SPF, DKIM or DMARC records.
 
-## DNS (as found on 28 Oct 2026, registrar 123 Reg)
+## DNS (registrar 123 Reg; cutover completed 28 Oct 2026)
 
-| Name | Currently points to | Target after cutover |
-|---|---|---|
-| `www` | CNAME `surveysuitehome.powerappsportals.com` (old Power Pages portal, shows "Page not found"; certificate doesn't match) | CNAME `icy-dune-0c5152210.7.azurestaticapps.net.` (123 Reg needs the trailing full stop) |
-| root `surveysuite.co.uk` | 123 Reg web forwarding, 301 to `http://www.surveysuite.co.uk` | 123 Reg web forwarding, Permanent (301) to `https://www.surveysuite.co.uk` |
+| Name | Points to |
+|---|---|
+| `www` | CNAME `icy-dune-0c5152210.7.azurestaticapps.net.` (123 Reg needs the trailing full stop) |
+| root `surveysuite.co.uk` | 123 Reg web forwarding, Permanent (301) to `https://www.surveysuite.co.uk`. Paths aren't forwarded (e.g. `/products` gives 404); Rob decided to leave this as is. |
 
-The cutover steps (removing www from the Power Pages portal, the CNAME change, then the root forwarding) will be added here when we reach that stage.
+- `www` was removed from the old Power Pages portal (`surveysuitehome`) before the cutover.
+- MX, SPF, DKIM, DMARC and the TXT verification records were not touched.
+
+**Re-test all four addresses:**
+```sh
+curl -sI https://www.surveysuite.co.uk | head -1                          # 200
+curl -sI http://www.surveysuite.co.uk  | grep -iE "^HTTP|^location"       # 301 -> https://www
+curl -sI https://surveysuite.co.uk     | grep -iE "^HTTP|^location"       # 301 -> https://www
+curl -sI http://surveysuite.co.uk      | grep -iE "^HTTP|^location"       # 301 -> https://www
+```
+
+## Demo booking API (UK South)
+
+See `api/README.md` for the endpoint, the fields and how to run it locally.
+
+| Item | Value |
+|---|---|
+| Resource group | `SurveySuite-UKS` (UK South) |
+| Function app | `func-surveysuite-api-uks`: Flex Consumption, Node 22, HTTPS only; answers only through the website (direct calls get 401) |
+| Identity used by the app | `id-surveysuite-api`, client ID `22c85ee9-caca-4fbb-a4c8-ccdb7bc75159`. Roles: Storage Blob Data Owner/Contributor on `stsurveysuiteapi`, Monitoring Metrics Publisher on `appi-surveysuite-api` |
+| Email permission | Exchange RBAC for Applications: "Application Mail.Send" scoped to **hi@surveysuite.co.uk only** (scope "SurveySuite website - hi mailbox only"). Tested 28 Oct 2026: allowed for hi@, refused for rob@. **Never** grant Mail.Send in Entra; it would apply to every mailbox. |
+| Storage | `stsurveysuiteapi`: shared keys off, no public blobs, TLS 1.2 |
+| Logs | `appi-surveysuite-api` + `log-surveysuite-uks` (30 days). Outcomes only, no personal details. |
+| Deploys from GitHub | identity `id-surveysuite-github` (client ID `36a9f1e5-46ac-4bae-a26e-28a977c2e4f3`), OIDC trust for `repo:robpkenny/surveysuite-website:ref:refs/heads/main` only, Website Contributor on the function app only. GitHub **variables** `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`. No secrets. |
+| Function app settings | `MANAGED_IDENTITY_CLIENT_ID`, `MAIL_FROM`, `MAIL_TO`, `ALLOWED_ORIGINS`, `ENQUIRY_DRY_RUN` (see `api/README.md`) |
+
+**To undo the email permission** (Exchange Online PowerShell):
+```powershell
+Remove-ManagementRoleAssignment "SurveySuite website API - Mail.Send hi@ only" -Confirm:$false
+Remove-ManagementScope "SurveySuite website - hi mailbox only" -Confirm:$false
+Remove-ServicePrincipal -Identity 22c85ee9-caca-4fbb-a4c8-ccdb7bc75159 -Confirm:$false
+```
+**To unlink the API from the site:** `az staticwebapp backends unlink -n SurveySuite -g SurveySuite`
 
 ## How to deploy
 
 1. Create a branch from `main` and make changes.
-2. Open a pull request into `main`. GitHub Actions builds the site and Azure publishes a **preview copy**. Its address is posted as a comment on the PR (like `https://icy-dune-0c5152210-<PR number>.westeurope.7.azurestaticapps.net`).
-3. Test the preview. The Free plan allows 3 previews at once; closing the PR deletes its preview.
+2. Open a pull request into `main`. GitHub Actions builds the site and Azure publishes a **preview copy**. Its address is posted as a comment on the PR (like `https://icy-dune-0c5152210-<PR number>.centralus.7.azurestaticapps.net`). Previews don't include the API, so forms can't be submitted there.
+3. Test the preview. The Standard plan allows 10 previews at once; closing the PR deletes its preview.
 4. Check the go-live blockers above, then merge. Merging to `main` publishes to the live site automatically.
 
-Azure builds the site itself: it runs `npm install` and `npm run build` with Node 22 (set by `engines` in `package.json`) and publishes the `dist` folder.
+- **The site:** Azure builds it itself. It runs `npm install` and `npm run build` with Node 22 (set by `engines` in `package.json`) and publishes the `dist` folder.
+- **The API** (`api/`): it has its own workflow, `.github/workflows/deploy-api.yml`. Tests run on every PR that changes `api/`; merging to `main` deploys to UK South.
 
 ## Running it locally
 

@@ -42,3 +42,6 @@ coverage
 # OS
 .DS_Store
 Thumbs.db
+
+# Azure Functions local settings (copy local.settings.example.json)
+api/local.settings.json
