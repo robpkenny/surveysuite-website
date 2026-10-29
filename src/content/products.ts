@@ -46,7 +46,7 @@ export const products: Product[] = [
     where: 'In the office',
     whereIcon: 'building',
     headline: 'Your business. Under control.',
-    tagline: 'The central management system for your surveying practice.',
+    tagline: 'CRM, job management and business automation built specifically for surveying practices.',
     summary:
       'Manage clients, jobs, properties and reporting in one powerful workspace, with a live view of where every instruction stands.',
     strap: 'Simple software. Smarter surveying.',

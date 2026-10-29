@@ -42,6 +42,10 @@ const paths = {
   gauge: (<><path d="M4.5 18a9 9 0 1 1 15 0" /><path d="m12 14 4-5M12 14h.01" /></>),
   power: (<><path d="M12 3v8" /><path d="M7 6.3a8 8 0 1 0 10 0" /></>),
   volume: (<><path d="M4 9h4l5-4v14l-5-4H4z" /><path d="M17 9a4 4 0 0 1 0 6M19.5 6.5a7.5 7.5 0 0 1 0 11" /></>),
+  link: <path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" />,
+  database: (<><ellipse cx="12" cy="5.5" rx="8" ry="3" /><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3" /></>),
+  zap: <path d="M13 2 4 14h7l-1 8 9-12h-7z" />,
+  grid: (<><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></>),
   hud: (<><path d="M3 7c6-2.5 12-2.5 18 0l-2 10c-4.7-1.4-9.3-1.4-14 0z" /><path d="M12 9.5v4M10 11.5l2-2 2 2" /></>),
 } as const
 
