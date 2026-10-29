@@ -11,7 +11,16 @@
   align-items: center;
 }
 .hero__copy { display: grid; gap: var(--space-6); justify-items: start; padding-block-end: var(--space-16); }
-.hero__title { font-size: var(--text-hero); line-height: 0.98; letter-spacing: -0.04em; color: var(--color-primary); }
+.hero__title { font-size: clamp(2.5rem, 1.4rem + 3vw, 4rem); line-height: 1; letter-spacing: -0.04em; color: var(--color-primary); }
+.hero__sub {
+  margin-block-start: calc(var(--space-2) * -1);
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 1.05rem + 0.6vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--color-text);
+}
 .hero__accent { color: var(--color-accent-text); }
 .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
 .hero__products {
@@ -96,6 +105,7 @@
   font-variant-numeric: tabular-nums;
   padding-block-start: 0.35em;
 }
+.recog__body { color: var(--color-text-muted); max-inline-size: 46ch; }
 .recog__list h3 { margin-block-end: var(--space-2); }
 .recog__list p { color: var(--color-text-muted); max-inline-size: 48ch; }
 
@@ -113,17 +123,56 @@
 .demo__copy { display: grid; gap: var(--space-4); justify-items: start; }
 .demo__len { display: inline-flex; align-items: center; gap: var(--space-2); font-weight: 600; color: var(--color-text-muted); }
 
-/* ---------- Reassurance ---------- */
-.reassure__grid {
+/* ---------- Benefits ---------- */
+.benefits__grid {
   display: grid;
   grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
   gap: var(--space-12);
 }
-.reassure__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); }
-.reassure__list li { display: grid; gap: var(--space-3); align-content: start; }
-.reassure__list svg { color: var(--color-accent); }
-.reassure__list h3 { font-size: 1.25rem; }
-.reassure__list p { color: var(--color-text-muted); }
+.benefits__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8) var(--space-12); }
+.benefits__list li { display: grid; gap: var(--space-3); align-content: start; }
+.benefits__list svg { color: var(--color-accent); }
+.benefits__list h3 { font-size: 1.25rem; }
+.benefits__list p { color: var(--color-text-muted); }
+
+/* ---------- Demo ---------- */
+.demo-ask__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--space-12);
+  align-items: center;
+}
+.demo-ask__copy { display: grid; gap: var(--space-4); justify-items: start; }
+.demo-ask__copy .btn { margin-block-start: var(--space-2); }
+.demo-ask__body { color: var(--color-text-muted); max-inline-size: 56ch; }
+.demo-ask__note { font-size: var(--text-sm); color: var(--color-text-muted); }
+.demo-ask__card {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+.demo-ask__card h3 { font-size: 1.25rem; color: var(--color-primary); }
+.demo-ask__list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); }
+.demo-ask__list li { display: flex; gap: var(--space-3); align-items: baseline; }
+.demo-ask__list li::before {
+  content: '?';
+  flex: none;
+  display: grid;
+  place-items: center;
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-text);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--text-xs);
+  translate: 0 3px;
+}
 
 /* ---------- Final CTA ---------- */
 .final { position: relative; padding-block: var(--space-16) var(--section-space); text-align: center; }
@@ -138,14 +187,17 @@
   .hero__grid,
   .recog__grid,
   .demo__grid,
-  .reassure__grid { grid-template-columns: 1fr; }
+  .benefits__grid,
+  .demo-ask__grid { grid-template-columns: 1fr; }
   .hero__copy { padding-block-end: 0; }
   .hero__visual { margin-inline: var(--space-8) 0; }
   .recog__head { position: static; }
-  .reassure__list { grid-template-columns: 1fr; gap: var(--space-6); }
+  .benefits__list { gap: var(--space-8); }
 }
 @media (max-width: 560px) {
   .hero__visual { margin-inline-start: var(--space-6); }
   .hero__phone { inline-size: 30%; inset-inline-start: -6%; }
   .hero__actions .btn { flex: 1 1 auto; }
+  .benefits__list { grid-template-columns: 1fr; gap: var(--space-6); }
+  .demo-ask__card { padding: var(--space-6); }
 }
