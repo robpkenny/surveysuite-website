@@ -18,7 +18,7 @@ grep -rn "\[ICO REG NUMBER\]" src
 
 ## Other open items (not blockers)
 
-- **Demo videos:** two are live: the Survey Suite Auto demo (https://youtu.be/riRUIujqhmU, public, 1:31) and the *Auto walkthrough* (https://youtu.be/aomMGTu0L24, 2:08, added 29 Oct 2026; recorded from the live dashboard with invented demo data, Jobs and Copilot captioned "Coming soon"). The *Hands-free in the car* slot is still empty and hidden. To add one, upload it to YouTube (Unlisted or Public, with embedding allowed) and paste the link into `youtube` in `src/content/videos.ts`.
+- **Demo videos:** one is live, the *Auto walkthrough* (https://youtu.be/aomMGTu0L24, 2:08, added 29 Oct 2026; recorded from the live dashboard with invented demo data, Jobs and Copilot captioned "Coming soon"). The original *Survey Suite Auto demo* (https://youtu.be/riRUIujqhmU, 1:31) was hidden on 29 Oct 2026 at Rob's request; paste the link back into `videos.ts` to restore it. The *Hands-free in the car* slot is still empty and hidden. To add one, upload it to YouTube (Unlisted or Public, with embedding allowed) and paste the link into `youtube` in `src/content/videos.ts`.
 - **Titles and descriptions of the two empty video slots** were inferred from the file names. Check them when the videos are added.
 - **Step 3 (demo booking form):** the API is built (PR A, see *Demo booking API* below). Still to do: the form page (PR B), a privacy-policy section for the form, then a live test.
 - **ICO registration number:** add it to `company.icoNumber` in `src/content/site.ts` when it arrives.

@@ -25,7 +25,7 @@ export const videos: DemoVideo[] = [
     title: 'Survey Suite Auto demo',
     product: 'auto',
     description: 'A short demo of Survey Suite Auto, the hands-free in-car system for surveyors.',
-    youtube: 'https://youtu.be/riRUIujqhmU', // "Survey Suite Auto" on @surveysuiteapp, public
+    youtube: '', // hidden 29 Oct 2026 at Rob's request; was https://youtu.be/riRUIujqhmU ("Survey Suite Auto" on @surveysuiteapp)
     duration: '1:31',
   },
   {
