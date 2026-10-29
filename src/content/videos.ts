@@ -40,7 +40,8 @@ export const videos: DemoVideo[] = [
     title: 'Auto walkthrough',
     product: 'auto',
     description: 'A longer walkthrough of Survey Suite Auto on a vehicle display.',
-    youtube: '', // was "auto demo.mp4"
+    youtube: 'https://youtu.be/aomMGTu0L24', // "Survey Suite Auto full demo 2026 10 29" on @surveysuiteapp
+    duration: '2:08',
   },
 ]
 
