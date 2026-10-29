@@ -35,10 +35,12 @@
 .bento__headline { font-family: var(--font-display); font-weight: 600; font-size: 1.125rem; color: var(--color-primary); }
 .bento__summary { color: var(--color-text-muted); max-inline-size: 44ch; }
 .bento__cta {
-  display: inline-flex; align-items: center; gap: var(--space-2);
+  display: block;
   margin-block-start: var(--space-2);
   font-family: var(--font-display); font-weight: 700; color: var(--color-primary);
 }
+/* Keep the arrow on the same line as the last word when the label wraps */
+.bento__cta .icon-forward { display: inline-block; vertical-align: -0.2em; margin-inline-start: var(--space-2); }
 .bento__tile:hover .icon-forward { transform: translateX(3px); }
 [dir='rtl'] .bento__tile:hover .icon-forward { transform: translateX(-3px); }
 

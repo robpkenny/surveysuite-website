@@ -14,7 +14,10 @@ function Preview({ slug }: { slug: ProductSlug }) {
   }
 }
 
-export default function ProductBento({ headingLevel = 3 }: { headingLevel?: 2 | 3 }) {
+/** Page-specific card wording. When set, it replaces the product's headline and tagline. */
+export type BentoCopy = Partial<Record<ProductSlug, { headline: string; summary: string }>>
+
+export default function ProductBento({ headingLevel = 3, copy }: { headingLevel?: 2 | 3; copy?: BentoCopy }) {
   const H = `h${headingLevel}` as 'h2' | 'h3'
   return (
     <div className="bento">
@@ -28,9 +31,9 @@ export default function ProductBento({ headingLevel = 3 }: { headingLevel?: 2 | 
             <H className="bento__name">
               <Link to={`/products/${p.slug}`} className="bento__link">{p.name}</Link>
             </H>
-            <p className="bento__headline">{p.headline}</p>
-            <p className="bento__summary">{p.tagline}</p>
-            <span className="bento__cta" aria-hidden="true">Explore {p.short} <ForwardIcon /></span>
+            <p className="bento__headline">{copy?.[p.slug]?.headline ?? p.headline}</p>
+            <p className="bento__summary">{copy?.[p.slug]?.summary ?? p.tagline}</p>
+            <span className="bento__cta" aria-hidden="true">Explore {copy ? p.name : p.short} <ForwardIcon /></span>
           </div>
           <div className="bento__preview"><Preview slug={p.slug} /></div>
         </article>
@@ -39,11 +42,11 @@ export default function ProductBento({ headingLevel = 3 }: { headingLevel?: 2 | 
   )
 }
 
-export function FamilyStrip({ headingLevel = 3 }: { headingLevel?: 2 | 3 | 4 }) {
+export function FamilyStrip({ headingLevel = 3, hide = [] }: { headingLevel?: 2 | 3 | 4; hide?: string[] }) {
   const H = `h${headingLevel}` as 'h2' | 'h3' | 'h4'
   return (
     <ul className="family" role="list">
-      {family.map((f) => (
+      {family.filter((f) => !hide.includes(f.name)).map((f) => (
         <li key={f.name} className="family__item" data-reveal>
           <span className="family__icon"><Icon name={f.icon} size={20} /></span>
           <H className="family__name">{f.name}</H>
